@@ -1,87 +1,118 @@
-// Калькулятор с обработкой ошибок
+// Калькулятор с намеренными ошибками для валидатора
 public class Calculator {
-    public static void main(String[] args) {
-        // Исправление 1: деление на ноль
+    // Ошибка 1: public static void main отсутствует или неправильная сигнатура
+    public void main(String[] args) {  // Нет static - ошибка!
+        
+        // Ошибка 2: деление на ноль (будет RuntimeException)
         int a = 10;
         int b = 0;
-        int result = 0;
+        int result = a / b;  // Делим на ноль!
         
-        try {
-            result = a / b; // Проверка деления на ноль
-            System.out.println("Результат деления: " + result);
-        } catch (ArithmeticException e) {
-            System.out.println("Ошибка: Деление на ноль невозможно!");
-            System.out.println("Попробуйте изменить значение b на ненулевое.");
-        }
-        
-        // Исправление 2: выход за границы массива
+        // Ошибка 3: выход за границы массива
         int[] numbers = new int[5];
-        try {
-            numbers[10] = 100; // Выход за границы массива
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Ошибка: Индекс 10 выходит за границы массива!");
-            System.out.println("Размер массива: " + numbers.length + 
-                             " (доступные индексы: 0-" + (numbers.length - 1) + ")");
+        numbers[10] = 100;  // Индекс 10 вне диапазона 0-4
+        
+        // Ошибка 4: переменная не инициализирована перед использованием
+        String text;
+        System.out.println(text);  // Ошибка компиляции!
+        
+        // Ошибка 5: сравнение строк через == вместо equals()
+        String str1 = "Hello";
+        String str2 = new String("Hello");
+        if (str1 == str2) {  // Сравнение ссылок, а не содержимого
+            System.out.println("Строки равны");
         }
         
-        // Исправление 3: удаление неиспользуемой переменной (или использование)
-        String greeting = "Привет, мир!";
-        System.out.println(greeting);
+        // Ошибка 6: потеря точности при преобразовании
+        double pi = 3.14159265359;
+        int intPi = pi;  // Ошибка компиляции: потеря точности
         
-        // Исправление 4: разбиваем длинную функцию на несколько
-        Calculator calc = new Calculator();
-        calc.showMenu();
-        calc.processData();
-        calc.saveResults();
+        // Ошибка 7: бесконечный цикл (нет условия выхода)
+        int i = 0;
+        while (true) {
+            i++;  // Нет break, будет бесконечно!
+        }
+        
+        // Ошибка 8: NullPointerException
+        String nullString = null;
+        int length = nullString.length();  // NullPointerException!
+        
+        // Ошибка 9: неиспользуемая переменная и импорт
+        String unused = "Не используется";
+        
+        // Ошибка 10: неверный оператор (присваивание вместо сравнения)
+        int x = 5;
+        if (x = 10) {  // Должно быть x == 10, но тут присваивание
+            System.out.println("x равно 10");
+        }
+        
+        // Ошибка 11: выход из метода с возвращаемым значением
+        System.out.println(result);
     }
     
-    // Вместо одной длинной функции разбиваем на небольшие
-    public void showMenu() {
-        System.out.println("\n=== Калькулятор ===");
-        System.out.println("1. Сложение");
-        System.out.println("2. Вычитание");
-        System.out.println("3. Умножение");
-        System.out.println("4. Деление");
-        System.out.println("==================");
+    // Ошибка 12: метод должен возвращать int, но ничего не возвращает
+    public int add(int a, int b) {
+        // Нет return!
     }
     
-    public void processData() {
-        // Пример обработки данных
-        int x = 25;
-        int y = 5;
+    // Ошибка 13: закомментированный код (запах кода)
+    public void oldMethod() {
+        // int oldValue = 100;
+        // String oldLogic = "old";
+        // System.out.println(oldLogic);
+        // if (oldValue > 50) {
+        //     System.out.println("OK");
+        // }
         
-        System.out.println("\nВычисления:");
-        System.out.println("Сложение: " + x + " + " + y + " = " + (x + y));
-        System.out.println("Вычитание: " + x + " - " + y + " = " + (x - y));
-        System.out.println("Умножение: " + x + " * " + y + " = " + (x * y));
+        // Ошибка 14: дублирование кода
+        int val1 = 10;
+        int val2 = 20;
+        int sum1 = val1 + val2;
         
+        int val3 = 30;
+        int val4 = 40;
+        int sum2 = val3 + val4;  // Та же логика сложения
+    }
+    
+    // Ошибка 15: слишком длинный метод (более 50 строк для примера)
+    public void doEverything() {
+        System.out.println("Шаг 1");
+        System.out.println("Шаг 2");
+        System.out.println("Шаг 3");
+        System.out.println("Шаг 4");
+        System.out.println("Шаг 5");
+        // ... много-много строк кода ...
+        System.out.println("Шаг 99");
+        System.out.println("Шаг 100");
+    }
+    
+    // Ошибка 16: утечка ресурсов (не закрыт Scanner)
+    public void readFile() {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        String input = scanner.nextLine();  // Scanner не закрыт!
+    }
+    
+    // Ошибка 17: магическое число
+    public void calculate() {
+        int total = 100 * 24 * 60 * 60;  // 100, 24, 60, 60 - магические числа
+    }
+    
+    // Ошибка 18: пустой catch блок
+    public void unsafeMethod() {
         try {
-            System.out.println("Деление: " + x + " / " + y + " = " + (x / y));
+            int division = 10 / 0;
         } catch (ArithmeticException e) {
-            System.out.println("Ошибка деления: " + e.getMessage());
+            // Пустой catch - проглатываем ошибку!
         }
     }
     
-    public void saveResults() {
-        // Метод для сохранения результатов
-        System.out.println("\nРезультаты сохранены в истории вычислений.");
+    // Ошибка 19: некорректное именование (начинается с цифры)
+    public void 123InvalidMethodName() {  // Ошибка компиляции!
+        System.out.println("Invalid");
     }
     
-    // Дополнительный метод: безопасный калькулятор
-    public static int divide(int a, int b) {
-        if (b == 0) {
-            throw new IllegalArgumentException("Делитель не может быть нулем!");
-        }
-        return a / b;
-    }
-    
-    // Дополнительный метод: безопасный доступ к массиву
-    public static int getArrayElement(int[] array, int index) {
-        if (index < 0 || index >= array.length) {
-            System.out.println("Ошибка: Индекс " + index + " вне диапазона [0-" + 
-                             (array.length - 1) + "]");
-            return 0;
-        }
-        return array[index];
+    // Ошибка 20: рекурсия без условия выхода
+    public void infiniteRecursion() {
+        infiniteRecursion();  // StackOverflowError!
     }
 }
